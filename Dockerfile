@@ -20,10 +20,17 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / &&\
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./fs_overlay /
+COPY ./fs_overlay/bin/reconfig /bin/reconfig
+COPY ./fs_overlay/opt/certs_manager/ /opt/certs_manager/
+COPY ./fs_overlay/etc/docker-gen/ /etc/docker-gen/
+COPY ./fs_overlay/etc/cron.weekly/ /etc/cron.weekly/
+COPY ./fs_overlay/etc/services.d/ ./fs_overlay/etc/services.d/
+COPY ./fs_overlay/etc/cont-init.d/ /etc/cont-init.d/
+COPY ./fs_overlay/var/lib/nginx-conf/ /var/lib/nginx-conf/
+COPY ./fs_overlay/var/www/vhosts/ /var/www/vhosts/
+COPY ./fs_overlay/var/www/default/ /var/www/default/
 
-RUN chmod a+x /bin/* && \
-    chmod a+x /etc/cron.weekly/renew_certs
+RUN chmod a+x /bin/* && chmod a+x /etc/cron.weekly/renew_certs
 
 VOLUME /var/lib/https-portal
 
